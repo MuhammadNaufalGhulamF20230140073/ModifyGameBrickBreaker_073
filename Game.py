@@ -193,7 +193,7 @@ def ask_for_name():
         title_text = font_title.render("Enter your name:", 1, WHITE)
         screen.blit(title_text, (150, 150))
 
-        # Tambahkan teks "Arahkan kursor ke kotak untuk mengetik"
+        # Tambahkan teks "Arahkan kursor ke kotak dan klik untuk mengetik"
         font_hint = pygame.font.Font(None, 24)
         hint_text = font_hint.render("Arahkan kursor ke kotak untuk mengetik.", 1, WHITE)
         screen.blit(hint_text, (150, 300))  # Posisi teks di bawah kotak input
