@@ -1,3 +1,4 @@
+
 #Muhammad Naufal Ghulam F
 #NIM 20230140073
 # TAMBAHAN
@@ -134,11 +135,16 @@ def ask_for_name():
     font = pygame.font.Font(None, 36)
     input_box = pygame.Rect(200, 250, 200, 40)
     color_inactive = pygame.Color('BLACK')
-    color_active = pygame.Color('BLACK')
+    color_active = pygame.Color('WHITE')
     color = color_inactive
     active = False
     text = ''
     clock = pygame.time.Clock()
+
+    # Timer untuk mengatur kedipan garis
+    blink = True
+    blink_timer = 0
+    blink_interval = 500  # Interval dalam milidetik
 
     while True:
         screen.fill((0, 0, 255))
@@ -161,16 +167,37 @@ def ask_for_name():
                     else:
                         text += event.unicode
 
+        # Atur kedipan garis berdasarkan timer
+        blink_timer += clock.get_time()
+        if blink_timer >= blink_interval:
+            blink = not blink
+            blink_timer = 0
+
+        # Gambar teks yang sedang diketik
         txt_surface = font.render(text, True, color)
         width = max(200, txt_surface.get_width() + 10)
         input_box.w = width
         screen.blit(txt_surface, (input_box.x + 5, input_box.y + 5))
+
+        # Gambar kotak input
         pygame.draw.rect(screen, color, input_box, 2)
 
-        font = pygame.font.Font(None, 48)
-        title_text = font.render("Enter your name:", 1, WHITE)
+        # Gambar garis berkedip (cursor)
+        if active and blink:
+            cursor_x = input_box.x + txt_surface.get_width() + 10
+            cursor_y = input_box.y + 5
+            pygame.draw.line(screen, color, (cursor_x, cursor_y), (cursor_x, cursor_y + 30), 2)
+
+        # Tambahkan teks "Enter your name:"
+        font_title = pygame.font.Font(None, 48)
+        title_text = font_title.render("Enter your name:", 1, WHITE)
         screen.blit(title_text, (150, 150))
-        
+
+        # Tambahkan teks "Arahkan kursor ke kotak untuk mengetik"
+        font_hint = pygame.font.Font(None, 24)
+        hint_text = font_hint.render("Arahkan kursor ke kotak untuk mengetik.", 1, WHITE)
+        screen.blit(hint_text, (150, 300))  # Posisi teks di bawah kotak input
+
         pygame.display.flip()
         clock.tick(30)
 
